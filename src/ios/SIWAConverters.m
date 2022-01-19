@@ -13,20 +13,20 @@ id SIWANullIfNil(id value)
 + (NSArray<ASAuthorizationScope> *)convertScopes: (NSArray<NSNumber *> *)scopes
 {
     NSMutableArray<ASAuthorizationScope> *convertedScopes = [NSMutableArray array];
-    
+
     for (NSNumber *scope in scopes) {
         ASAuthorizationScope convertedScope = [self convertScope:scope];
         if (convertedScope != nil) {
             [convertedScopes addObject:convertedScope];
         }
     }
-    
+
     return convertedScopes;
 }
 
 + (ASAuthorizationScope)convertScope: (NSNumber *)scope
 {
-    switch (scope.integerValue) {
+    switch (scope.intValue) {
         case 0:
             return ASAuthorizationScopeFullName;
         case 1:
@@ -38,7 +38,7 @@ id SIWANullIfNil(id value)
 
 + (ASAuthorizationOpenIDOperation)convertOperation: (NSNumber *)operation
 {
-    switch (operation.integerValue) {
+    switch (operation.intValue) {
         case 0:
             return ASAuthorizationOperationImplicit;
         case 1:
@@ -69,14 +69,14 @@ id SIWANullIfNil(id value)
 + (NSArray<NSNumber *> *)convertAuthorizedScopes: (NSArray<ASAuthorizationScope> *)authorizedScopes
 {
     NSMutableArray<NSNumber *> *convertedScopes = [NSMutableArray array];
-    
+
     for (ASAuthorizationScope authorizedScope in authorizedScopes) {
         NSNumber *convertedScope = [self convertAuthorizedScope:authorizedScope];
         if (convertedScope != nil) {
             [convertedScopes addObject:convertedScope];
         }
     }
-    
+
     return convertedScopes;
 }
 
@@ -101,7 +101,7 @@ id SIWANullIfNil(id value)
 + (NSDictionary<NSString *, id> *)convertName:(NSPersonNameComponents *)name
 {
     if (name == nil) return nil;
-    
+
     NSMutableDictionary *convertedName = [@{
         @"namePrefix": SIWANullIfNil(name.namePrefix),
         @"givenName": SIWANullIfNil(name.givenName),
@@ -110,11 +110,11 @@ id SIWANullIfNil(id value)
         @"nameSuffix": SIWANullIfNil(name.nameSuffix),
         @"nickname": SIWANullIfNil(name.nickname)
     } mutableCopy];
-    
+
     if (name.phoneticRepresentation != nil) {
         [convertedName setObject:[self convertName:name.phoneticRepresentation] forKey:@"phoneticRepresentation"];
     }
-    
+
     return convertedName;
 }
 
